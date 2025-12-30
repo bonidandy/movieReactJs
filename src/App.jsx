@@ -7,6 +7,9 @@ import { useState, useEffect } from 'react'
 function App() {
   const [searchTerm, setSearchTerm] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [movieList, setMovieList] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+
 
   const API_BASE_URL ='https://api.themoviedb.org/3/discover'
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY
@@ -31,6 +34,9 @@ function App() {
 
       const data = await response.json()
 
+      if(data.response === 'false'){
+        setErrorMessage(data.Error || 'Failed to fetch movie')
+      }
       console.log(data)
     }catch (error){
       console.error(`error fetching movies : ${error}`)
